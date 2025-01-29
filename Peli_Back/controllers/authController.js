@@ -36,17 +36,19 @@ exports.login = (req, res) => {
     if (!isPasswordValid) return res.status(401).json({ message: 'Contraseña incorrecta' });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ message: 'Inicio de sesión exitoso', token });
+    res.status(200).json({ message: 'Inicio de sesión exitoso', token, id});
   });
 };
 
 // Listado de usuarios
-exports.listUsers = (req, res) => {
-  const query = 'SELECT id, nombre, apellido, username, email FROM users';
-  db.query(query, (err, results) => {
-    if (err) return res.status(500).json({ message: 'Error al obtener usuarios', error: err });
+exports.UserById = (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT id, nombre, apellido, username, email FROM users WHERE id = ?';
+  db.query(query, [id], (err, results) => {
+    if (err) return res.status(500).json({ message: 'Error al obtener el usuario', error: err });
     res.status(200).json(results);
   });
+
 };
 // Editar usuario
 exports.editUser = (req, res) => {
