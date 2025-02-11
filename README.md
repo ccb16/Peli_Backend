@@ -9,6 +9,7 @@ Este es un backend desarrollado con Node.js y Express para gestionar la autentic
 - bcrypt
 - JWT (Json Web Token)
 - dotenv
+- Jest (para pruebas)
 - supertest (para pruebas)
 
 ## Requisitos Previos
@@ -20,8 +21,8 @@ Antes de ejecutar el proyecto, asegúrese de tener instalado:
 ## Instalación
 1. Clonar el repositorio:
    ```sh
-   git clone https://github.com/tu-usuario/tu-repositorio.git
-   cd tu-repositorio
+   git clone https://github.com/ccb16/Peli_Backend.git
+   cd Peli_Backend
    ```
 
 2. Instalar dependencias:
@@ -138,22 +139,6 @@ Para ejecutar las pruebas unitarias con `supertest`, ejecute:
 npm test
 ```
 
-## Despliegue con Docker
-Si desea desplegar el proyecto en un contenedor Docker:
-1. Crear un `Dockerfile` con el siguiente contenido:
-   ```dockerfile
-   FROM node:18
-   WORKDIR /app
-   COPY package*.json ./
-   RUN npm install
-   COPY . .
-   EXPOSE 3000
-   CMD ["npm", "start"]
-   ```
-2. Construir y ejecutar el contenedor:
-   ```sh
-   docker build -t auth-api .
-   docker run -p 3000:3000 --env-file .env auth-api
    ```
 ## Licencia
 Este proyecto está bajo la licencia MIT.
