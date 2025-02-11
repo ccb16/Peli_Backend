@@ -1,4 +1,4 @@
-# Sistema de Autenticación con Node.js, Express y MySQL
+# Sistema de Autenticación con Node.js, Express y MySQL (Backend)
 
 Este es un backend desarrollado con Node.js y Express para gestionar la autenticación de usuarios, incluyendo registro, inicio de sesión y edición de datos. Utiliza MySQL como base de datos y bcrypt para la encriptación de contraseñas.
 
