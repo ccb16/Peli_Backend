@@ -8,13 +8,14 @@ exports.register = (req, res) => {
   if (!nombre || !apellido || !username || !email || !password) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios' });
   }
-
   const hashedPassword = bcrypt.hashSync(password, 10);
 
-  const query = 'INSERT INTO users (nombre, apellido, username, email, password) VALUES (?, ?, ?, ?, ?)';
-  db.query(query, [nombre, apellido, username, email, hashedPassword], (err) => {
-    if (err) return res.status(500).json({ message: 'Error al registrar usuario', error: err });
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
+  const query = 'INSERT INTO users (nombre, apellido, email, username, password) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [nombre, apellido, email, username, hashedPassword], (err) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error al registrar usuario', error: err });
+    }
+    return res.status(201).json({ message: 'Usuario registrado exitosamente' });
   });
 };
 
@@ -36,17 +37,19 @@ exports.login = (req, res) => {
     if (!isPasswordValid) return res.status(401).json({ message: 'Contraseña incorrecta' });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ message: 'Inicio de sesión exitoso', token, id});
+    return res.status(200).json({ message: 'Inicio de sesión exitoso', token, id: user.id });
   });
 };
 
-// Listado de usuarios
+// Listado de datos del usuario
 exports.UserById = (req, res) => {
   const { id } = req.params;
-  const query = 'SELECT id, nombre, apellido, username, email FROM users WHERE id = ?';
+  const query = 'SELECT * FROM users WHERE id = ?';
   db.query(query, [id], (err, results) => {
-    if (err) return res.status(500).json({ message: 'Error al obtener el usuario', error: err });
-    res.status(200).json(results);
+    if (err) {
+      return res.status(500).json({ message: 'Error al obtener el usuario', error: err });
+    }
+    return res.status(200).json(results);
   });
 
 };
@@ -94,6 +97,6 @@ exports.editUser = (req, res) => {
   db.query(query, values, (err, results) => {
     if (err) return res.status(500).json({ message: 'Error al actualizar usuario', error: err });
     if (results.affectedRows === 0) return res.status(404).json({ message: 'Usuario no encontrado' });
-    res.status(200).json({ message: 'Usuario actualizado exitosamente' });
+    res.status(200).json({ message: 'Datos actualizados exitosamente' });
   });
 };

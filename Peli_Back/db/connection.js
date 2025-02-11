@@ -1,4 +1,4 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 require('dotenv').config();
 
 const db = mysql.createConnection({
@@ -10,9 +10,9 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) {
-    console.error('Error connecting to MySQL:', err.message);
+    console.error(`Error al conectar con MySQL ${process.env.DB_NAME}:`, err.message);
   } else {
-    console.log('Connected to MySQL database');
+    console.log(`Conectado con la base de datos: ${process.env.DB_NAME} en MySQL`);
   }
 });
 
